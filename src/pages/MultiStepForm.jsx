@@ -8,6 +8,15 @@ import Finish_Up from './steps/Finish_Up'
 
 const MultiStepForm = () => {
 
+
+    // function handleNext() {
+    //   setActiveStep((prevStep) => prevStep + 1);
+    // }
+
+    // function handlePrevious() {
+    //   setActiveStep((prevStep) => prevStep - 1);
+    // }
+
     const steps = [
         {
             "step": "step 1",
@@ -47,33 +56,43 @@ const MultiStepForm = () => {
         phone: "",
     })
 
+    const [activeStep, setActiveStep] = useState(0);
+
     function handleubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
+
+        let hasError = false;
+
         if (!inputs.name) {
             setError((prevError) => ({ ...prevError, eName: "Name is required" }));
+            hasError = true;
         } else {
             setError((prevError) => ({ ...prevError, eName: "" }));
-            // Perform form submission logic here
         }
 
         if (!inputs.email) {
-            setError((prevError) => ({ ...prevError, eEmail: "Email is required" }))
+            setError((prevError) => ({ ...prevError, eEmail: "Valid email is required" }));
+            hasError = true;
         } else {
             setError((prevError) => ({ ...prevError, eEmail: "" }));
-            // Perform form submission logic here
         }
 
         if (!inputs.phone) {
-            setError((prevError) => ({ ...prevError, ePhone: "Phone is required" }))
+            setError((prevError) => ({ ...prevError, ePhone: "Valid phone is required" }));
+            hasError = true;
         } else {
             setError((prevError) => ({ ...prevError, ePhone: "" }));
-            // Perform form submission logic here
+        }
+
+        if (!hasError) {
+            setPage((current) => current + 1);
+            setActiveStep((prevStep) => prevStep + 1);
         }
     }
 
     return (
         <section className='w-full min-h-screen h-full flex justify-center items-center bg-[#eff4fe] font-Ubuntu'>
-            <div className='w-fit h-fit p-5 bg-white rounded-xl flex gap-8'>
+            <div className='w-fit h-fit p-5 bg-white rounded-xl drop-shadow-xl flex gap-8'>
 
                 {/* **************** SideBar ************** */}
                 <div className='relative'>
@@ -82,7 +101,7 @@ const MultiStepForm = () => {
                         {
                             steps.map((items, index) => (
                                 <div key={index} className='flex items-center gap-5'>
-                                    <p className={`w-10 h-10 pb-0.5 border border-white rounded-full flex justify-center items-center text-xl font-semibold`}>{index + 1}</p>
+                                    <p className={`w-10 h-10 pb-0.5 border duration-500 border-white ${index === activeStep ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}>{index + 1}</p>
                                     <div>
                                         <p className='font-light'>{items.step}</p>
                                         <p className='font-bold'>{items.info}</p>
@@ -92,7 +111,7 @@ const MultiStepForm = () => {
                         }
                     </div>
                 </div>
-                <form onSubmit={handleubmit} className='px-10 pt-5 pb-3 w-[550px] flex flex-col justify-between'>
+                <form onSubmit={handleubmit} noValidate className='px-10 pt-5 pb-3 w-[550px] flex flex-col justify-between'>
 
                     <div>
                         <h1 className='font-bold text-3xl'>{steps[page]?.title}</h1>
@@ -145,10 +164,10 @@ const MultiStepForm = () => {
                     {/* ******************* navigation Button ******************* */}
                     <div className='flex justify-between'>
                         <div>
-                            <button onClick={() => { setPage((current) => current - 1) }} hidden={page === 0} className='text-gray-500 hover:text-black font-medium' type='button'>Go Back</button>
+                            <button onClick={() => { setPage((current) => current - 1); setActiveStep((prevStep) => prevStep - 1); }} hidden={page === 0} className='text-gray-500 hover:text-black font-medium' type='button'>Go Back</button>
                         </div>
                         <div>
-                            <button onClick={() => { setPage((current) => current + 1) }} hidden={page === 3} className='h-8 px-4 py-0.5 bg-[#162c57] hover:bg-[#1f3d79] text-white rounded-lg' type="submit">Next Step</button>
+                            <button hidden={page === 3} className='h-8 px-4 py-0.5 bg-[#162c57] hover:bg-[#1f3d79] text-white rounded-lg' type="submit">Next Step</button>
                         </div>
                     </div>
                 </form>
