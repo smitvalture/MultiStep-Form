@@ -65,11 +65,11 @@ const MultiStepForm = () => {
     const [planCost, setPlanCost] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
 
-    useEffect(() => {
-        console.log("total:", totalCost);
-        console.log("plan:", planCost);
-        console.log("addons:", selectedAddOns);
-    }, [totalCost, planCost]);
+    // useEffect(() => {
+    //     console.log("total:", totalCost);
+    //     console.log("plan:", planCost);
+    //     console.log("addons:", selectedAddOns);
+    // }, [totalCost, planCost]);
 
     useEffect(() => {
         if (yearToggle) {
@@ -181,7 +181,7 @@ const MultiStepForm = () => {
 
 
         if (page === 2) {
-            console.log(selectedAddOns);
+            //console.log(selectedAddOns);
             if (selectedAddOns.length === 1 && selectedAddOns[0] === "online") {
                 setTotalCost(prev => prev + addonPlans.online);
             } else if (selectedAddOns.length === 1 && selectedAddOns[0] === ("large" || "custome")) {
@@ -297,6 +297,7 @@ const MultiStepForm = () => {
                             costArc={plans.arcade}
                             costAdv={plans.advance}
                             costPro={plans.pro}
+                            selectedAddOns={selectedAddOns}
                             online={selectedAddOns.includes("online")}
                             large={selectedAddOns.includes("large")}
                             custome={selectedAddOns.includes("custome")}
