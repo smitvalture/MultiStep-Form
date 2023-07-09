@@ -52,7 +52,7 @@ const Finish_Up = ({ onclick, toggle, planName, planCost, selectedAddOns, online
 
 
       <div className='w-full px-6 flex justify-between items-center'>
-        <p className='text-gray-500 text-sm'>Total (per {toggle ? 'year' : 'month'})</p>
+        <p className='text-gray-500 text-sm font-medium'>Total (per {toggle ? 'year' : 'month'})</p>
         <p className='text-purple-800 font-semibold'>+${total}/{toggle ? 'yr' : 'mo'}</p>
       </div>
     </div>

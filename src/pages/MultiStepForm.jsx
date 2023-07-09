@@ -221,7 +221,7 @@ const MultiStepForm = () => {
                         {steps.map((items, index) => (
                             <div key={index} className="flex items-center gap-5">
                                 <p
-                                    className={`w-10 h-10 border duration-500 border-white ${index === page || index === 3 ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}
+                                    className={`w-10 h-10 border duration-500 border-white ${index === page || (index === 3 && page === 3) ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}
                                 >
                                     {index + 1}
                                 </p>
