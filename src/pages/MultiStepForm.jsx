@@ -1,21 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import sidebarImg from '../assets/images/bg-sidebar-desktop.svg'
-import { Container } from 'postcss'
 import Personal_Info from './steps/Personal_Info'
 import Select_Plan from './steps/Select_Plan'
 import Add_Ons from './steps/Add_Ons'
 import Finish_Up from './steps/Finish_Up'
 
 const MultiStepForm = () => {
-
-
-    // function handleNext() {
-    //   setActiveStep((prevStep) => prevStep + 1);
-    // }
-
-    // function handlePrevious() {
-    //   setActiveStep((prevStep) => prevStep - 1);
-    // }
 
     const steps = [
         {
@@ -49,14 +39,51 @@ const MultiStepForm = () => {
         eName: "",
         eEmail: "",
         ePhone: "",
+        ePlan: "",
     })
     const [inputs, setInputs] = useState({
         name: "",
         email: "",
         phone: "",
     })
+    const [yearToggle, setYearToggle] = useState(false)
+    const [plans, setPlans] = useState({
+        arcade: 9,
+        advance: 12,
+        pro: 15,
+        selectedPlan: 0,
+    })
+    const [activePlan, setActivePlan] = useState("")
 
-    const [activeStep, setActiveStep] = useState(0);
+
+    useEffect(() => {
+        console.log(plans.selectedPlan);
+    }, [plans.selectedPlan])
+
+    function handleActivePlan(select) {
+        setActivePlan(select)
+    }
+
+
+
+    function handlePlans() {
+        setYearToggle((curr) => !curr);
+        if (!yearToggle) {
+            setPlans({
+                arcade: 90,
+                advance: 120,
+                pro: 150,
+            });
+        } else {
+            setPlans({
+                arcade: 9,
+                advance: 12,
+                pro: 15,
+            });
+        }
+    }
+
+
 
     function handleubmit(e) {
         e.preventDefault();
@@ -71,23 +98,57 @@ const MultiStepForm = () => {
         }
 
         if (!inputs.email) {
-            setError((prevError) => ({ ...prevError, eEmail: "Valid email is required" }));
+            setError((prevError) => ({ ...prevError, eEmail: "Email is required" }));
+            hasError = true;
+        } else if (!/^\S+@\S+\.\S+$/.test(inputs.email)) {
+            setError((prevError) => ({ ...prevError, eEmail: "Enter valid email" }));
             hasError = true;
         } else {
             setError((prevError) => ({ ...prevError, eEmail: "" }));
         }
 
         if (!inputs.phone) {
-            setError((prevError) => ({ ...prevError, ePhone: "Valid phone is required" }));
+            setError((prevError) => ({ ...prevError, ePhone: "Phone is required" }));
             hasError = true;
         } else {
             setError((prevError) => ({ ...prevError, ePhone: "" }));
         }
 
+
+
+        if (page === 1) {
+
+            if (activePlan === "arc") {
+                setPlans({
+                    ...plans,
+                    selectedPlan: plans.arcade,
+                })
+            } else if (activePlan === "adv") {
+                setPlans({
+                    ...plans,
+                    selectedPlan: plans.advance,
+                })
+            } else if (activePlan === "pro") {
+                setPlans({
+                    ...plans,
+                    selectedPlan: plans.pro,
+                })
+            } else if (!activePlan || activePlan === "") {
+                // setError()
+                hasError = true;
+            }
+        }
+
+
+
+
+
+
+
         if (!hasError) {
             setPage((current) => current + 1);
-            setActiveStep((prevStep) => prevStep + 1);
         }
+
     }
 
     return (
@@ -101,9 +162,9 @@ const MultiStepForm = () => {
                         {
                             steps.map((items, index) => (
                                 <div key={index} className='flex items-center gap-5'>
-                                    <p className={`w-10 h-10 pb-0.5 border duration-500 border-white ${index === activeStep ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}>{index + 1}</p>
+                                    <p className={`w-10 h-10 pb-0.5 border duration-500 border-white ${index === page ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}>{index + 1}</p>
                                     <div>
-                                        <p className='font-light'>{items.step}</p>
+                                        <p className='font-light opacity-75'>{items.step}</p>
                                         <p className='font-bold'>{items.info}</p>
                                     </div>
                                 </div>
@@ -153,7 +214,17 @@ const MultiStepForm = () => {
 
                             />
 
-                            : (page === 1) ? <Select_Plan />
+                            : (page === 1) ? <Select_Plan
+                                onclickArc={() => handleActivePlan("arc")}
+                                onclickAdv={() => handleActivePlan("adv")}
+                                onclickPro={() => handleActivePlan("pro")}
+                                activePlan={activePlan}
+                                costArc={plans.arcade}
+                                costAdv={plans.advance}
+                                costPro={plans.pro}
+                                onclickToggle={() => handlePlans()}
+                                toggle={yearToggle}
+                            />
                                 : (page === 2) ? <Add_Ons />
                                     : <Finish_Up />
                     }
@@ -164,7 +235,7 @@ const MultiStepForm = () => {
                     {/* ******************* navigation Button ******************* */}
                     <div className='flex justify-between'>
                         <div>
-                            <button onClick={() => { setPage((current) => current - 1); setActiveStep((prevStep) => prevStep - 1); }} hidden={page === 0} className='text-gray-500 hover:text-black font-medium' type='button'>Go Back</button>
+                            <button onClick={() => { setPage((current) => current - 1) }} hidden={page === 0} className='text-gray-500 hover:text-black font-medium' type='button'>Go Back</button>
                         </div>
                         <div>
                             <button className={`h-8 px-4 py-0.5 text-white rounded-lg ${page === 3 ? "bg-[#4841f5] hover:bg-[#908bf7]" : "bg-[#162c57] hover:bg-[#27457f]"}`} type="submit">{page === 3 ? "Confirm" : "Next Step"}</button>
