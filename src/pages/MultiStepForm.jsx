@@ -59,12 +59,16 @@ const MultiStepForm = () => {
         custome: 2,
     });
     const [selectedAddOns, setSelectedAddOns] = useState([]);
+    const [selectedPlanName, setSelectedPlanName] = useState('');
+    const [selectedPlanCost, setSelectedPlanCost] = useState(0);
+
     const [planCost, setPlanCost] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
 
     useEffect(() => {
         console.log("total:", totalCost);
         console.log("plan:", planCost);
+        console.log("addons:", selectedAddOns);
     }, [totalCost, planCost]);
 
     useEffect(() => {
@@ -85,6 +89,16 @@ const MultiStepForm = () => {
 
     function handleActivePlan(select) {
         setActivePlan(select);
+        if (select === 'arc') {
+            setSelectedPlanName('Arcade');
+            setSelectedPlanCost(plans.arcade);
+        } else if (select === 'adv') {
+            setSelectedPlanName('Advance');
+            setSelectedPlanCost(plans.advance);
+        } else if (select === 'pro') {
+            setSelectedPlanName('Pro');
+            setSelectedPlanCost(plans.pro);
+        }
     }
 
     function handlePlans() {
@@ -186,10 +200,13 @@ const MultiStepForm = () => {
             ) {
                 setTotalCost(prev => prev + (2 * addonPlans.large) + addonPlans.online);
             }
+
         }
 
         if (!hasError) {
-            setPage((current) => current + 1);
+            if (page >= 0 && page <= 3) {
+                setPage((current) => current + 1);
+            }
         }
     }
 
@@ -216,7 +233,7 @@ const MultiStepForm = () => {
                     </div>
                 </div>
                 <form onSubmit={handleubmit} noValidate className="px-10 pt-5 pb-3 w-[550px] flex flex-col justify-between">
-                    <div>
+                    <div className='space-y-1'>
                         <h1 className="font-bold text-3xl">{steps[page]?.title}</h1>
                         <p className="text-gray-400 text-sm">{steps[page]?.des}</p>
                     </div>
@@ -273,7 +290,20 @@ const MultiStepForm = () => {
                             selectedAddOns={selectedAddOns}
                         />
                     ) : (
-                        <Finish_Up />
+                        <Finish_Up
+                            toggle={yearToggle}
+                            planName={selectedPlanName}
+                            planCost={selectedPlanCost}
+                            costArc={plans.arcade}
+                            costAdv={plans.advance}
+                            costPro={plans.pro}
+                            online={selectedAddOns.includes("online")}
+                            large={selectedAddOns.includes("large")}
+                            custome={selectedAddOns.includes("custome")}
+                            addonPlans={addonPlans}
+                            total={totalCost}
+                            onclick={() => { setPage(1); setTotalCost(0); setPlanCost(0) }}
+                        />
                     )}
 
                     <div></div>
@@ -283,10 +313,16 @@ const MultiStepForm = () => {
                     <div className='flex justify-between'>
                         <div>
                             <button onClick={() => {
+                                if (page === 2) {
+                                    setTotalCost(0);
+                                    setSelectedAddOns([]);
+                                }
+                                if (page === 3) {
+                                    setTotalCost(planCost);
+                                    setSelectedAddOns([]);
+                                }
                                 setPage((current) => current - 1);
-                                page === 2 && setTotalCost(0);
-                                page === 3 && setTotalCost(planCost);
-                            }} hidden={page === 0} className='text-gray-500 hover:text-black font-medium' type='button'>Go Back</button>
+                            }} hidden={page === 0} className='text-gray-500 hover:text-black duration-300 font-medium' type='button'>Go Back</button>
                         </div>
                         <div>
                             <button className={`h-8 px-4 py-0.5 text-white rounded-lg ${page === 3 ? "bg-[#4841f5] hover:bg-[#908bf7]" : "bg-[#162c57] hover:bg-[#27457f]"}`} type="submit">{page === 3 ? "Confirm" : "Next Step"}</button>
