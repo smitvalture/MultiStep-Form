@@ -4,6 +4,7 @@ import Personal_Info from './steps/Personal_Info';
 import Select_Plan from './steps/Select_Plan';
 import Add_Ons from './steps/Add_Ons';
 import Finish_Up from './steps/Finish_Up';
+import Thankyou from './steps/Thankyou';
 
 const MultiStepForm = () => {
     const steps = [
@@ -220,7 +221,7 @@ const MultiStepForm = () => {
                         {steps.map((items, index) => (
                             <div key={index} className="flex items-center gap-5">
                                 <p
-                                    className={`w-10 h-10 border duration-500 border-white ${index === page ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}
+                                    className={`w-10 h-10 border duration-500 border-white ${index === page || index === 3 ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}
                                 >
                                     {index + 1}
                                 </p>
@@ -289,7 +290,7 @@ const MultiStepForm = () => {
                             onclickPro={() => handleAddOnSelection('custome')}
                             selectedAddOns={selectedAddOns}
                         />
-                    ) : (
+                    ) : page === 3 ? (
                         <Finish_Up
                             toggle={yearToggle}
                             planName={selectedPlanName}
@@ -305,7 +306,7 @@ const MultiStepForm = () => {
                             total={totalCost}
                             onclick={() => { setPage(1); setTotalCost(0); setPlanCost(0) }}
                         />
-                    )}
+                    ) : <Thankyou />}
 
                     <div></div>
                     <div></div>
@@ -323,10 +324,10 @@ const MultiStepForm = () => {
                                     setSelectedAddOns([]);
                                 }
                                 setPage((current) => current - 1);
-                            }} hidden={page === 0} className='text-gray-500 hover:text-black duration-300 font-medium' type='button'>Go Back</button>
+                            }} hidden={page === 0 || page === 4} className='text-gray-500 hover:text-black duration-300 font-medium' type='button'>Go Back</button>
                         </div>
                         <div>
-                            <button className={`h-8 px-4 py-0.5 text-white rounded-lg ${page === 3 ? "bg-[#4841f5] hover:bg-[#908bf7]" : "bg-[#162c57] hover:bg-[#27457f]"}`} type="submit">{page === 3 ? "Confirm" : "Next Step"}</button>
+                            <button className={`h-8 px-4 py-0.5 text-white rounded-lg ${page === 3 ? "bg-[#4841f5] hover:bg-[#908bf7]" : "bg-[#162c57] hover:bg-[#27457f]"}`} hidden={page === 4} type="submit">{page === 3 ? "Confirm" : "Next Step"}</button>
                         </div>
                     </div>
                 </form>
