@@ -63,8 +63,9 @@ const MultiStepForm = () => {
     const [totalCost, setTotalCost] = useState(0);
 
     useEffect(() => {
-        console.log(totalCost);
-    }, [totalCost]);
+        console.log("total:", totalCost);
+        console.log("plan:", planCost);
+    }, [totalCost, planCost]);
 
     useEffect(() => {
         if (yearToggle) {
@@ -160,9 +161,10 @@ const MultiStepForm = () => {
                     selectedPlanCost = plans.pro;
                 }
                 setPlanCost(selectedPlanCost)
-                setTotalCost(planCost)
+                setTotalCost(selectedPlanCost)
             }
         }
+
 
         if (page === 2) {
             console.log(selectedAddOns);
@@ -201,8 +203,7 @@ const MultiStepForm = () => {
                         {steps.map((items, index) => (
                             <div key={index} className="flex items-center gap-5">
                                 <p
-                                    className={`w-10 h-10 pb-0.5 border duration-500 border-white ${index === page ? 'bg-[#c3e0fa] text-black' : ''
-                                        } rounded-full flex justify-center items-center text-xl font-semibold`}
+                                    className={`w-10 h-10 border duration-500 border-white ${index === page ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}
                                 >
                                     {index + 1}
                                 </p>
@@ -283,7 +284,7 @@ const MultiStepForm = () => {
                         <div>
                             <button onClick={() => {
                                 setPage((current) => current - 1);
-                                page == 2 && setTotalCost(0);
+                                page === 2 && setTotalCost(0);
                                 page === 3 && setTotalCost(planCost);
                             }} hidden={page === 0} className='text-gray-500 hover:text-black font-medium' type='button'>Go Back</button>
                         </div>
