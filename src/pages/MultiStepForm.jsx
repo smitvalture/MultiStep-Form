@@ -358,82 +358,86 @@ const MultiStepForm = () => {
                     </div>
                 </div>
 
-                <div className="relative -top-[100px] flex-grow h-fit px-6 mx-3 pt-8 pb-10 rounded-lg shadow-xl bg-white flex gap-6 flex-col justify-start">
-                    <div className='space-y-2'>
-                        <h1 className="font-bold text-3xl">{steps[page]?.title}</h1>
-                        <p className="text-gray-400 text-sm pr-10">{steps[page]?.des}</p>
+                <div className='relative -top-[110px] flex-grow'>
+                    <div className="h-fit px-6 mx-3 pt-8 pb-10 rounded-lg shadow-xl bg-white flex gap-6 flex-col justify-start">
+                        <div className='space-y-2'>
+                            <h1 className="font-bold text-3xl">{steps[page]?.title}</h1>
+                            <p className="text-gray-400 text-sm pr-10">{steps[page]?.des}</p>
+                        </div>
+
+                        {page === 0 ? (
+                            <Personal_Info
+                                eName={error.eName}
+                                eEmail={error.eEmail}
+                                ePhone={error.ePhone}
+                                valueName={inputs.name}
+                                changeName={(e) => {
+                                    setInputs((prevState) => ({
+                                        ...prevState,
+                                        name: e.target.value,
+                                    }));
+                                    setError((prevError) => ({ ...prevError, eName: '' }));
+                                }}
+                                valueEmail={inputs.email}
+                                changeEmail={(e) => {
+                                    setInputs((prevState) => ({
+                                        ...prevState,
+                                        email: e.target.value,
+                                    }));
+                                    setError((prevError) => ({ ...prevError, eEmail: '' }));
+                                }}
+                                valuePhone={inputs.phone}
+                                changePhone={(e) => {
+                                    setInputs((prevState) => ({
+                                        ...prevState,
+                                        phone: e.target.value,
+                                    }));
+                                    setError((prevError) => ({ ...prevError, ePhone: '' }));
+                                }}
+                            />
+                        ) : page === 1 ? (
+                            <Select_Plan
+                                onclickArc={() => handleActivePlan('arc')}
+                                onclickAdv={() => handleActivePlan('adv')}
+                                onclickPro={() => handleActivePlan('pro')}
+                                activePlan={activePlan}
+                                costArc={plans.arcade}
+                                costAdv={plans.advance}
+                                costPro={plans.pro}
+                                onclickToggle={() => handlePlans()}
+                                toggle={yearToggle}
+                            />
+                        ) : page === 2 ? (
+                            <Add_Ons
+                                toggle={yearToggle}
+                                addonPlans={addonPlans}
+                                onclickArc={() => handleAddOnSelection('online')}
+                                onclickAdv={() => handleAddOnSelection('large')}
+                                onclickPro={() => handleAddOnSelection('custome')}
+                                selectedAddOns={selectedAddOns}
+                            />
+                        ) : page === 3 ? (
+                            <Finish_Up
+                                toggle={yearToggle}
+                                planName={selectedPlanName}
+                                planCost={selectedPlanCost}
+                                costArc={plans.arcade}
+                                costAdv={plans.advance}
+                                costPro={plans.pro}
+                                selectedAddOns={selectedAddOns}
+                                online={selectedAddOns.includes("online")}
+                                large={selectedAddOns.includes("large")}
+                                custome={selectedAddOns.includes("custome")}
+                                addonPlans={addonPlans}
+                                total={totalCost}
+                                onclick={() => { setPage(1); setTotalCost(0); setPlanCost(0) }}
+                            />
+                        ) : <Thankyou />}
+
                     </div>
-
-                    {page === 0 ? (
-                        <Personal_Info
-                            eName={error.eName}
-                            eEmail={error.eEmail}
-                            ePhone={error.ePhone}
-                            valueName={inputs.name}
-                            changeName={(e) => {
-                                setInputs((prevState) => ({
-                                    ...prevState,
-                                    name: e.target.value,
-                                }));
-                                setError((prevError) => ({ ...prevError, eName: '' }));
-                            }}
-                            valueEmail={inputs.email}
-                            changeEmail={(e) => {
-                                setInputs((prevState) => ({
-                                    ...prevState,
-                                    email: e.target.value,
-                                }));
-                                setError((prevError) => ({ ...prevError, eEmail: '' }));
-                            }}
-                            valuePhone={inputs.phone}
-                            changePhone={(e) => {
-                                setInputs((prevState) => ({
-                                    ...prevState,
-                                    phone: e.target.value,
-                                }));
-                                setError((prevError) => ({ ...prevError, ePhone: '' }));
-                            }}
-                        />
-                    ) : page === 1 ? (
-                        <Select_Plan
-                            onclickArc={() => handleActivePlan('arc')}
-                            onclickAdv={() => handleActivePlan('adv')}
-                            onclickPro={() => handleActivePlan('pro')}
-                            activePlan={activePlan}
-                            costArc={plans.arcade}
-                            costAdv={plans.advance}
-                            costPro={plans.pro}
-                            onclickToggle={() => handlePlans()}
-                            toggle={yearToggle}
-                        />
-                    ) : page === 2 ? (
-                        <Add_Ons
-                            toggle={yearToggle}
-                            addonPlans={addonPlans}
-                            onclickArc={() => handleAddOnSelection('online')}
-                            onclickAdv={() => handleAddOnSelection('large')}
-                            onclickPro={() => handleAddOnSelection('custome')}
-                            selectedAddOns={selectedAddOns}
-                        />
-                    ) : page === 3 ? (
-                        <Finish_Up
-                            toggle={yearToggle}
-                            planName={selectedPlanName}
-                            planCost={selectedPlanCost}
-                            costArc={plans.arcade}
-                            costAdv={plans.advance}
-                            costPro={plans.pro}
-                            selectedAddOns={selectedAddOns}
-                            online={selectedAddOns.includes("online")}
-                            large={selectedAddOns.includes("large")}
-                            custome={selectedAddOns.includes("custome")}
-                            addonPlans={addonPlans}
-                            total={totalCost}
-                            onclick={() => { setPage(1); setTotalCost(0); setPlanCost(0) }}
-                        />
-                    ) : <Thankyou />}
-
                 </div>
+
+
                 {/* ******************* navigation Button ******************* */}
                 <div className={`${page === 4 ? "hidden" : "flex"} justify-between -mt-20 w-full h-20 bg-white items-center px-5`}>
                     <div>
