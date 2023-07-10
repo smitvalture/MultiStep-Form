@@ -339,11 +339,11 @@ const MultiStepForm = () => {
 
             {/* mobile view */}
 
-            <form onSubmit={handleubmit} noValidate className="relative md:hidden w-full min-h-screen flex flex-col justify-between gap-8">
+            <form onSubmit={handleubmit} noValidate className="relative md:hidden w-full min-h-screen h-full flex flex-col justify-between gap-8">
                 {/* **************** SideBar ************** */}
-                <div className="relative flex md:flex-none justify-center items-center w-full md:w-fit">
+                <div className="relative flex justify-center items-center w-full md:w-fit">
                     <img className="block md:hidden w-full" src={sidebarImgMobile} alt="sidebarDesktop" />
-                    <div className="absolute top-8 md:top-0 md:left-0 z-10 md:pl-6 md:pt-6 text-white uppercase flex md:flex-col gap-4">
+                    <div className="absolute top-8 md:top-0 md:left-0 z-10 md:pl-6 md:pt-6 text-white uppercase flex gap-4">
                         {steps.map((items, index) => (
                             <div key={index} className="flex items-center gap-5">
                                 <p className={`w-9 h-9 border duration-500 border-white ${index === page ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}>
@@ -358,7 +358,7 @@ const MultiStepForm = () => {
                     </div>
                 </div>
 
-                <div className="absolute top-[100px] left-0 px-6 mx-3 pt-8 pb-10 md:w-[550px] rounded-lg shadow-xl bg-white flex gap-6 flex-col justify-center">
+                <div className="relative -top-[100px] flex-grow h-fit px-6 mx-3 pt-8 pb-10 rounded-lg shadow-xl bg-white flex gap-6 flex-col justify-start">
                     <div className='space-y-2'>
                         <h1 className="font-bold text-3xl">{steps[page]?.title}</h1>
                         <p className="text-gray-400 text-sm pr-10">{steps[page]?.des}</p>
@@ -433,10 +433,9 @@ const MultiStepForm = () => {
                         />
                     ) : <Thankyou />}
 
-
                 </div>
                 {/* ******************* navigation Button ******************* */}
-                <div className={`${page === 4 ? "hidden" : "flex"} justify-between w-full h-20 bg-white items-center px-5`}>
+                <div className={`${page === 4 ? "hidden" : "flex"} justify-between -mt-20 w-full h-20 bg-white items-center px-5`}>
                     <div>
                         <button onClick={() => {
                             if (page === 2) {
@@ -455,6 +454,7 @@ const MultiStepForm = () => {
                     </div>
                 </div>
             </form>
+
         </section>
     )
 }
