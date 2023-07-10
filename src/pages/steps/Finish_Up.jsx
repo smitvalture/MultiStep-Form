@@ -3,8 +3,8 @@ import React from 'react'
 const Finish_Up = ({ onclick, toggle, planName, planCost, selectedAddOns, online, large, custome, addonPlans, total }) => {
 
   return (
-    <div className='w-full h-full pt-10 flex flex-col gap-5 justify-start items-center'>
-      <div className='w-full h-fit p-5 bg-purple-50 rounded-md flex gap-6 flex-col justify-center'>
+    <div className='w-full h-full pt-2 md:pt-10 flex flex-col gap-5 justify-start items-center'>
+      <div className='w-full h-fit p-5 bg-purple-50 rounded-md flex gap-2 md:gap-6 flex-col justify-center'>
 
         <div className='w-full flex items-center justify-between'>
           <div>

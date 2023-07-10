@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import sidebarImg from '../assets/images/bg-sidebar-desktop.svg';
+import sidebarImgMobile from '../assets/images/bg-sidebar-mobile.svg';
 import Personal_Info from './steps/Personal_Info';
 import Select_Plan from './steps/Select_Plan';
 import Add_Ons from './steps/Add_Ons';
@@ -213,11 +214,12 @@ const MultiStepForm = () => {
 
     return (
         <section className="w-full min-h-screen h-full flex justify-center items-center bg-[#eff4fe] font-Ubuntu">
-            <div className="w-fit h-fit p-5 bg-white rounded-xl drop-shadow-xl flex gap-8">
+            <div className="hidden w-fit h-fit p-5 bg-white rounded-xl drop-shadow-xl md:flex flex-col md:flex-row gap-8">
                 {/* **************** SideBar ************** */}
-                <div className="relative">
-                    <img className="-z-10" src={sidebarImg} alt="sidebarDesktop" />
-                    <div className="absolute top-0 left-0 z-10 pl-6 pt-6 text-white uppercase flex flex-col gap-5">
+                <div className="relative flex md:flex-none justify-center items-center w-full md:w-fit">
+                    <img className="-z-10 hidden md:block" src={sidebarImg} alt="sidebarDesktop" />
+                    <img className="-z-10 block md:hidden w-full" src={sidebarImgMobile} alt="sidebarDesktop" />
+                    <div className="absolute top-10 md:top-0 md:left-0 z-10 md:pl-6 md:pt-6 text-white uppercase flex md:flex-col gap-5">
                         {steps.map((items, index) => (
                             <div key={index} className="flex items-center gap-5">
                                 <p
@@ -225,7 +227,7 @@ const MultiStepForm = () => {
                                 >
                                     {index + 1}
                                 </p>
-                                <div>
+                                <div className='hidden md:block'>
                                     <p className="font-light opacity-75">{items.step}</p>
                                     <p className="font-bold">{items.info}</p>
                                 </div>
@@ -233,7 +235,7 @@ const MultiStepForm = () => {
                         ))}
                     </div>
                 </div>
-                <form onSubmit={handleubmit} noValidate className="px-10 pt-5 pb-3 w-[550px] flex flex-col justify-between">
+                <form onSubmit={handleubmit} noValidate className="hidden px-10 pt-5 pb-3 md:w-[550px] md:flex flex-col justify-between">
                     <div className='space-y-1'>
                         <h1 className="font-bold text-3xl">{steps[page]?.title}</h1>
                         <p className="text-gray-400 text-sm">{steps[page]?.des}</p>
@@ -332,6 +334,127 @@ const MultiStepForm = () => {
                     </div>
                 </form>
             </div>
+
+
+
+            {/* mobile view */}
+
+            <form onSubmit={handleubmit} noValidate className="relative md:hidden w-full min-h-screen flex flex-col justify-between gap-8">
+                {/* **************** SideBar ************** */}
+                <div className="relative flex md:flex-none justify-center items-center w-full md:w-fit">
+                    <img className="block md:hidden w-full" src={sidebarImgMobile} alt="sidebarDesktop" />
+                    <div className="absolute top-8 md:top-0 md:left-0 z-10 md:pl-6 md:pt-6 text-white uppercase flex md:flex-col gap-4">
+                        {steps.map((items, index) => (
+                            <div key={index} className="flex items-center gap-5">
+                                <p className={`w-9 h-9 border duration-500 border-white ${index === page ? 'bg-[#c3e0fa] text-black' : ''} rounded-full flex justify-center items-center text-xl font-semibold`}>
+                                    {index + 1}
+                                </p>
+                                <div className='hidden md:block'>
+                                    <p className="font-light opacity-75">{items.step}</p>
+                                    <p className="font-bold">{items.info}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="absolute top-[100px] left-0 px-6 mx-3 pt-8 pb-10 md:w-[550px] rounded-lg shadow-xl bg-white flex gap-6 flex-col justify-center">
+                    <div className='space-y-2'>
+                        <h1 className="font-bold text-3xl">{steps[page]?.title}</h1>
+                        <p className="text-gray-400 text-sm pr-10">{steps[page]?.des}</p>
+                    </div>
+
+                    {page === 0 ? (
+                        <Personal_Info
+                            eName={error.eName}
+                            eEmail={error.eEmail}
+                            ePhone={error.ePhone}
+                            valueName={inputs.name}
+                            changeName={(e) => {
+                                setInputs((prevState) => ({
+                                    ...prevState,
+                                    name: e.target.value,
+                                }));
+                                setError((prevError) => ({ ...prevError, eName: '' }));
+                            }}
+                            valueEmail={inputs.email}
+                            changeEmail={(e) => {
+                                setInputs((prevState) => ({
+                                    ...prevState,
+                                    email: e.target.value,
+                                }));
+                                setError((prevError) => ({ ...prevError, eEmail: '' }));
+                            }}
+                            valuePhone={inputs.phone}
+                            changePhone={(e) => {
+                                setInputs((prevState) => ({
+                                    ...prevState,
+                                    phone: e.target.value,
+                                }));
+                                setError((prevError) => ({ ...prevError, ePhone: '' }));
+                            }}
+                        />
+                    ) : page === 1 ? (
+                        <Select_Plan
+                            onclickArc={() => handleActivePlan('arc')}
+                            onclickAdv={() => handleActivePlan('adv')}
+                            onclickPro={() => handleActivePlan('pro')}
+                            activePlan={activePlan}
+                            costArc={plans.arcade}
+                            costAdv={plans.advance}
+                            costPro={plans.pro}
+                            onclickToggle={() => handlePlans()}
+                            toggle={yearToggle}
+                        />
+                    ) : page === 2 ? (
+                        <Add_Ons
+                            toggle={yearToggle}
+                            addonPlans={addonPlans}
+                            onclickArc={() => handleAddOnSelection('online')}
+                            onclickAdv={() => handleAddOnSelection('large')}
+                            onclickPro={() => handleAddOnSelection('custome')}
+                            selectedAddOns={selectedAddOns}
+                        />
+                    ) : page === 3 ? (
+                        <Finish_Up
+                            toggle={yearToggle}
+                            planName={selectedPlanName}
+                            planCost={selectedPlanCost}
+                            costArc={plans.arcade}
+                            costAdv={plans.advance}
+                            costPro={plans.pro}
+                            selectedAddOns={selectedAddOns}
+                            online={selectedAddOns.includes("online")}
+                            large={selectedAddOns.includes("large")}
+                            custome={selectedAddOns.includes("custome")}
+                            addonPlans={addonPlans}
+                            total={totalCost}
+                            onclick={() => { setPage(1); setTotalCost(0); setPlanCost(0) }}
+                        />
+                    ) : <Thankyou />}
+
+
+                </div>
+                {/* ******************* navigation Button ******************* */}
+                <div className={`${page === 4 ? "hidden" : "flex"} justify-between w-full h-20 bg-white items-center px-5`}>
+                    <div>
+                        <button onClick={() => {
+                            if (page === 2) {
+                                setTotalCost(0);
+                                setSelectedAddOns([]);
+                            }
+                            if (page === 3) {
+                                setTotalCost(planCost);
+                                setSelectedAddOns([]);
+                            }
+                            setPage((current) => current - 1);
+                        }} hidden={page === 0 || page === 4} className='text-gray-500 hover:text-black duration-300 font-medium' type='button'>Go Back</button>
+                    </div>
+                    <div>
+                        <button className={`h-11 px-4 py-0.5 text-white rounded-lg ${page === 3 ? "bg-[#4841f5] lg:hover:bg-[#908bf7]" : "bg-[#162c57] lg:hover:bg-[#27457f]"}`} hidden={page === 4} type="submit">{page === 3 ? "Confirm" : "Next Step"}</button>
+                    </div>
+                </div>
+            </form>
         </section>
     )
 }
