@@ -327,7 +327,7 @@ const MultiStepForm = () => {
                             }} hidden={page === 0 || page === 4} className='text-gray-500 hover:text-black duration-300 font-medium' type='button'>Go Back</button>
                         </div>
                         <div>
-                            <button className={`h-8 px-4 py-0.5 text-white rounded-lg ${page === 3 ? "bg-[#4841f5] hover:bg-[#908bf7]" : "bg-[#162c57] hover:bg-[#27457f]"}`} hidden={page === 4} type="submit">{page === 3 ? "Confirm" : "Next Step"}</button>
+                            <button className={`h-8 px-4 py-0.5 text-white rounded-lg ${page === 3 ? "bg-[#4841f5] lg:hover:bg-[#908bf7]" : "bg-[#162c57] lg:hover:bg-[#27457f]"}`} hidden={page === 4} type="submit">{page === 3 ? "Confirm" : "Next Step"}</button>
                         </div>
                     </div>
                 </form>
