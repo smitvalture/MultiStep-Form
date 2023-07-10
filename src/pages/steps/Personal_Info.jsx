@@ -10,21 +10,21 @@ const Personal_Info = ({ eName, eEmail, ePhone, valueName, valueEmail, valuePhon
                         <h2 className='font-bold'>Name</h2>
                         <h2 className='font-semibold text-red-500'>{eName}</h2>
                     </div>
-                    <input className={`w-full h-12 border-2 border-gray-400 placeholder:font-medium ${eName ? "bg-red-100 text-red-500 border-red-500 focus:outline-red-500" : ""} rounded-lg px-4`} required value={valueName} onChange={changeName} placeholder='e.g. Stephen King' type="text" name="name" id="nameID" />
+                    <input className={`w-full h-12 border-2 border-gray-400 placeholder:font-medium ${eName ? "bg-red-100 text-red-500 border-red-500 focus:outline-red-500" : ""} rounded-lg px-4`} required value={valueName} onChange={changeName} placeholder='e.g. Stephen King' type="text" name="name" id="name-1" />
                 </div>
                 <div className='flex flex-col gap-1.5'>
                     <div className='flex justify-between'>
                         <h2 className='font-bold'>Email Address</h2>
                         <h2 className='font-semibold text-red-500'>{eEmail}</h2>
                     </div>
-                    <input className={`w-full h-12 border-2 border-gray-400 placeholder:font-medium ${eEmail ? "bg-red-100 text-red-500 border-red-500 focus:outline-red-500" : ""} rounded-lg px-4`} required value={valueEmail} onChange={changeEmail} placeholder='e.g. stephenking@lorem.com' type="email" name="email" id="emailID" />
+                    <input className={`w-full h-12 border-2 border-gray-400 placeholder:font-medium ${eEmail ? "bg-red-100 text-red-500 border-red-500 focus:outline-red-500" : ""} rounded-lg px-4`} required value={valueEmail} onChange={changeEmail} placeholder='e.g. stephenking@lorem.com' type="email" name="email" id="email-1" />
                 </div>
                 <div className='flex flex-col gap-1.5'>
                     <div className='flex justify-between'>
                         <h2 className='font-bold'>Phone Number</h2>
                         <h2 className='font-semibold text-red-500'>{ePhone}</h2>
                     </div>
-                    <input className={`w-full h-12 border-2 border-gray-400 placeholder:font-medium ${ePhone ? "bg-red-100 text-red-500 border-red-500 focus:outline-red-500" : ""} rounded-lg px-4`} required value={valuePhone} onChange={changePhone} placeholder='e.g. +91 91231 12121' type="tel" name="phone" id="phoneID" />
+                    <input className={`w-full h-12 border-2 border-gray-400 placeholder:font-medium ${ePhone ? "bg-red-100 text-red-500 border-red-500 focus:outline-red-500" : ""} rounded-lg px-4`} required value={valuePhone} onChange={changePhone} placeholder='e.g. +91 91231 12121' type="tel" name="phone" id="phone-1" />
                 </div>
             </div>
         </>
