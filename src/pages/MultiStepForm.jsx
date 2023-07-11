@@ -87,6 +87,23 @@ const MultiStepForm = () => {
                 custome: 2,
             });
         }
+
+        if (yearToggle) {
+            setPlans({
+                arcade: 90,
+                advance: 120,
+                pro: 150,
+                selectedPlan: 0,
+            });
+        } else {
+            setPlans({
+                arcade: 9,
+                advance: 12,
+                pro: 15,
+                selectedPlan: 0,
+            });
+        }
+
     }, [yearToggle]);
 
     function handleActivePlan(select) {
@@ -105,21 +122,7 @@ const MultiStepForm = () => {
 
     function handlePlans() {
         setYearToggle((curr) => !curr);
-        if (!yearToggle) {
-            setPlans({
-                arcade: 90,
-                advance: 120,
-                pro: 150,
-                selectedPlan: 0,
-            });
-        } else {
-            setPlans({
-                arcade: 9,
-                advance: 12,
-                pro: 15,
-                selectedPlan: 0,
-            });
-        }
+        setActivePlan("")
     }
     const handleAddOnSelection = (addOn) => {
         const isSelected = selectedAddOns.includes(addOn);
